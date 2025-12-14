@@ -1,0 +1,207 @@
+/* ======================
+   GLOBAL RESET
+====================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background-color: #f4f6fb;
+  color: #1f2937;
+}
+
+/* ======================
+   NAVBAR
+====================== */
+.navbar {
+  background: #ffffff;
+  padding: 16px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.navbar h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.navbar a {
+  text-decoration: none;
+  margin-left: 22px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.navbar a:hover {
+  color: #2563eb;
+}
+
+/* ======================
+   PAGE TITLES
+====================== */
+.title {
+  text-align: center;
+  margin: 40px 0 20px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+/* ======================
+   GRID (CARDS)
+====================== */
+.grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 32px 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+/* ======================
+   CARD
+====================== */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 26px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 15px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
+
+/* ======================
+   AUTH / FORMS
+====================== */
+.auth {
+  max-width: 420px;
+  margin: 80px auto;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+.auth h3 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 22px;
+  font-weight: 700;
+}
+
+.auth input,
+.auth select {
+  width: 100%;
+  padding: 14px;
+  margin-top: 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.auth input:focus,
+.auth select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.auth button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth button:hover {
+  background: #1e40af;
+}
+
+/* ======================
+   PLAN DETAILS PAGE
+====================== */
+.plan-details {
+  max-width: 600px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+.plan-details h3 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.plan-details p {
+  margin-bottom: 10px;
+  color: #4b5563;
+}
+
+/* ======================
+   BUTTON VARIANTS
+====================== */
+.btn-secondary {
+  background: #10b981;
+}
+
+.btn-secondary:hover {
+  background: #059669;
+}
+
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 16px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar div {
+    margin-top: 10px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
