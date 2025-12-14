@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
 const planRoutes = require("./routes/planRoutes");
-const trainerRoutes = require("./routes/trainerRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -12,17 +13,14 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb+srv://en22cs301158_db_user:gxG5LOwhmbaP1J0h@fitness.hb2u6oj.mongodb.net/?appName=fitness")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+  .catch(err => console.error(err));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/plans", planRoutes);
-app.use("/api/trainers", trainerRoutes);
+app.use("/api/users", userRoutes);
 
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.get("/", (req, res) => res.send("API Running"));
 
-
+app.listen(5000, () => console.log("Server running on port 5000"));
