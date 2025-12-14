@@ -1,13 +1,67 @@
-const router = require("express").Router();
-const Plan = require("../models/Plan");
-const auth = require("../middleware/authMiddleware");
+import { useEffect, useState } from "react";
+import API from "../services/api";
+import Navbar from "../components/Navbar";
+import { getUserRole } from "../utils/auth";
 
-router.post("/create", auth, async (req, res) => {
-  if (req.user.role !== "trainer")
-    return res.status(403).json({ message: "Access denied" });
+export default function TrainerDashboard() {
+  const [plan, setPlan] = useState({
+    title: "",
+    description: "",
+    price: "",
+    duration: ""
+  });
 
-  const plan = await Plan.create(req.body);
-  res.json(plan);
-});
+  useEffect(() => {
+    const role = getUserRole();
+    if (role !== "trainer") {
+      alert("Access denied. Trainers only.");
+      window.location.href = "/";
+    }
+  }, []);
 
-module.exports = router;
+  const createPlan = async () => {
+    try {
+      await API.post("/plans", plan);
+      alert("Plan created successfully");
+      setPlan({ title: "", description: "", price: "", duration: "" });
+    } catch (err) {
+      alert("Error creating plan");
+    }
+  };
+
+  return (
+    <>
+      <Navbar />
+      <div className="auth">
+        <h3>Create Fitness Plan</h3>
+
+        <input
+          placeholder="Title"
+          value={plan.title}
+          onChange={e => setPlan({ ...plan, title: e.target.value })}
+        />
+
+        <input
+          placeholder="Description"
+          value={plan.description}
+          onChange={e => setPlan({ ...plan, description: e.target.value })}
+        />
+
+        <input
+          type="number"
+          placeholder="Price"
+          value={plan.price}
+          onChange={e => setPlan({ ...plan, price: e.target.value })}
+        />
+
+        <input
+          placeholder="Duration (e.g. 30 days)"
+          value={plan.duration}
+          onChange={e => setPlan({ ...plan, duration: e.target.value })}
+        />
+
+        <button onClick={createPlan}>Create Plan</button>
+      </div>
+    </>
+  );
+}
