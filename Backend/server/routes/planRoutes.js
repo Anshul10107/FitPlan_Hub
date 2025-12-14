@@ -1,47 +1,32 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const Plan = require("../models/Plan");
+const auth = require("../middleware/auth");
+const role = require("../middleware/role");
 
-// GET all plans
-router.get("/", async (req, res) => {
-  try {
-    const plans = await Plan.find();
-    res.json(plans);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+router.post("/", auth, role("trainer"), async (req, res) => {
+  const plan = await Plan.create({
+    ...req.body,
+    trainerId: req.user.id,
+    trainerName: req.user.name
+  });
+  res.json(plan);
 });
 
-// SEED plans (for testing UI)
-router.get("/seed", async (req, res) => {
-  try {
-    await Plan.deleteMany();
+router.put("/:id", auth, role("trainer"), async (req, res) => {
+  const plan = await Plan.findById(req.params.id);
+  if (plan.trainerId.toString() !== req.user.id)
+    return res.status(403).json({ message: "Not your plan" });
 
-    const plans = await Plan.insertMany([
-      {
-        title: "Beginner Fitness Plan",
-        description: "3-day workout plan for beginners",
-        level: "Beginner",
-        duration: "4 Weeks"
-      },
-      {
-        title: "Weight Loss Program",
-        description: "Fat loss cardio + strength training",
-        level: "Intermediate",
-        duration: "6 Weeks"
-      },
-      {
-        title: "Muscle Gain Plan",
-        description: "Hypertrophy focused strength training",
-        level: "Advanced",
-        duration: "8 Weeks"
-      }
-    ]);
-
-    res.json(plans);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  Object.assign(plan, req.body);
+  await plan.save();
+  res.json(plan);
 });
 
-module.exports = router;
+router.delete("/:id", auth, role("trainer"), async (req, res) => {
+  const plan = await Plan.findById(req.params.id);
+  if (plan.trainerId.toString() !== req.user.id)
+    return res.status(403).json({ message: "Not your plan" });
+
+  await plan.deleteOne();
+  res.json({ message: "Deleted" });
+});
